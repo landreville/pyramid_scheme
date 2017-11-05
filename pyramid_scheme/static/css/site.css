@@ -38,12 +38,22 @@ body {
     margin-top: 2rem;
 }
 
+/*
+    Underline that clears descenders.
+    This also allows adjusting the height of the underline and it's position below the
+    text.
+*/
 .page-title__text{
-    /* Underline that clears descenders. */
+    /* The white text shadow hides the underline when it passes descenders. */
     text-shadow: 3px 0 #ffffff, 2px 0 #ffffff, 1px 0 #ffffff, -1px 0 #ffffff, -2px 0 #ffffff, -3px 0 #ffffff;
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
     background-repeat: repeat-x;
+    /* Adjust height to change height of underline. */
     background-size: 1px 3px;
+    /* Adjust the vertical background position to place the underline
+       further or closer to the text.
+       This also needs to be adjusted if the font size changes.
+    */
     background-position: 0 2rem;
 }
 

@@ -17,6 +17,8 @@ install_requires = [
 
 development = ['pyramid-debugtoolbar']
 
+# Install extras with:
+# pip install -e "/path/to/pyramid_scheme[development]"
 extras_require = {
     'development': development,
 }

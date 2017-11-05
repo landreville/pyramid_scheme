@@ -18,7 +18,7 @@ METADATA = MetaData(naming_convention={
     "pk": "%(table_name)s_pkey"
 })
 
-
+# Base class for models
 BASE = declarative_base(metadata=METADATA)
 
 
@@ -37,8 +37,11 @@ def get_db(request):
     """
     registry = request.registry
     try:
+        # Fetch existing database session pool from the application registry
+        # to keep a single instance of the database session pool.
         db = registry.db
     except AttributeError:
+        # Database hasn't been created yet
         db = None
 
     if not db:
@@ -52,6 +55,8 @@ def setup_db(settings, prefix='sqlalchemy.'):
     Create an SQLAlchemy database pool.
     """
     engine = engine_from_config(settings, prefix=prefix)
+    # pyramid_tm uses the ZopeTransactionExtension to commit the database
+    # transaction after each request if there was not an unhandled exception.
     maker = sessionmaker(bind=engine, extension=ZopeTransactionExtension())
     session = scoped_session(maker)
     BASE.metadata.bind = session.bind

@@ -34,6 +34,9 @@ class User(BASE):
         return self._password == crypt.crypt(input_password, self._password)
 
 
+# Composite table to provide many-to-many relationship between users and groups.
+# This is created with Table because it will not be referenced by queries
+# due to the relationship configuration on the Group and User models.
 users_groups_table = Table(
     'users_groups',
     BASE.metadata,
@@ -67,6 +70,9 @@ class Group(BASE):
     )
 
 
+# Composite table to provide many-to-many relationship between groups and permissions.
+# This is created with Table because it will not be referenced by queries
+# due to the relationship configuration on the Group and Permission models.
 groups_permissions = Table(
     'groups_permissions',
     BASE.metadata,

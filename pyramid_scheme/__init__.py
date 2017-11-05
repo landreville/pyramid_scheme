@@ -22,7 +22,10 @@ def main(global_config, **app_settings):
         name='static',
         path='pyramid_scheme:static'
     )
+    # Setup database
     config.include(models)
+    # Include views
     config.include(user)
+    # Scan for view_config and view_default decorated classes/functions
     config.scan()
     return config.make_wsgi_app()
