@@ -1,0 +1,17 @@
+.coverage$
+.DS_Store$
+.egg$
+.egg-info$
+.kate-swp$
+.idea/
+.mako.py$
+.orig$
+.project$
+.pyc$
+.pydevproject$
+.settings$
+.swp$
+build/
+data/
+dist/
+.*\.db$
