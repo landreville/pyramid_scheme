@@ -9,7 +9,10 @@ log = logging.getLogger(__name__)
 class UsersView(BaseView):
     """View-class for managing the set of users."""
 
-    @view_config(renderer='templates/users.mako')
+    @view_config(
+        renderer='templates/users.mako',
+        match_param="action=index"
+    )
     def view(self):
         users = self._context.get_users()
 
@@ -27,12 +30,31 @@ class UsersView(BaseView):
             username=user.username
         )
 
+    @view_config(
+        renderer='templates/user-add.mako',
+        match_param="action=add",
+        request_method="GET",
+    )
+    def add(self):
+        return {}
+
+    @view_config(
+        renderer='templates/user-add.mako',
+        match_param="action=add",
+        request_method="POST",
+    )
+    def add_save(self):
+        return {}
+
 
 @view_defaults(route_name='user')
 class UserView(BaseView):
     """View-class for managing a specific user."""
 
-    @view_config(renderer='templates/user-view.mako', match_param="action=view")
+    @view_config(
+        renderer='templates/user-view.mako',
+        match_param="action=view"
+    )
     def view(self):
         user = self._context.get_user()
         return {

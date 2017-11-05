@@ -47,7 +47,7 @@ users_groups_table = Table(
         'group_id',
         Integer,
         ForeignKey('groups.group_id', ondelete="CASCADE"),
-           primary_key=True,
+        primary_key=True,
         nullable=False
     ),
 )
@@ -57,7 +57,7 @@ class Group(BASE):
     __tablename__ = 'groups'
 
     group_id = Column(Integer, primary_key=True)
-    name = Column(Unicode, nullable=False)
+    name = Column(Unicode, nullable=False, unique=True)
     description = Column(Unicode)
 
     users = relationship(

@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 def includeme(config):
     config.add_route(
         'users',
-        '/users',
+        '/users/{action}',
         factory=UsersContext
     )
 
