@@ -10,7 +10,8 @@
         ## The page may include utf-8 characters.
         ## The title below even contains one in this code.
         <meta charset="utf-8"/>
-        <link rel="stylesheet" href="/static/css/bundle.css"/>
+        <link rel="stylesheet"
+              href="${request.static_path('pyramid_scheme:static/css/bundle.css')}"/>
         <title>
             pyramid_scheme
             ## Use capture function to allow the title to be rendered in the

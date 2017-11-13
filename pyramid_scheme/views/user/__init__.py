@@ -18,12 +18,19 @@ log = logging.getLogger(__name__)
 
 
 def includeme(config):
-    # Route for actions that are for the set of users
+    # Route for set of users
     config.add_route(
         'users',
-        '/users/{action}',
+        '/users',
         factory=UsersContext
     )
+
+    # Route for adding a user
+    config.add_route(
+        'users add',
+        '/users/add',
+    )
+
     # Route for actions that are for a specific user
     config.add_route(
         'user',

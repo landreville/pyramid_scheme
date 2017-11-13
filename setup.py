@@ -13,6 +13,7 @@ install_requires = [
     'waitress',
     'sqlalchemy',
     'zope.sqlalchemy',
+    'formencode',
 ]
 
 development = ['pyramid-debugtoolbar']

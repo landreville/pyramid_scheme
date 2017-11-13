@@ -30,7 +30,7 @@ class User(BASE):
         self._password = crypt.crypt(password, crypt.mksalt())
 
     def verify_password(self, input_password):
-        """Check that the given password is corret for this user."""
+        """Check that the given password is correct for this user."""
         return self._password == crypt.crypt(input_password, self._password)
 
 
