@@ -3,6 +3,7 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from pyramid_scheme.views.context import BaseContext
 from pyramid_scheme.models import User
+from pyramid.decorator import reify
 
 
 log = logging.getLogger(__name__)
@@ -32,7 +33,8 @@ class UserContext(BaseContext):
         # writing the key names.
         self._username = self._request.matchdict['username']
 
-    def get_user(self):
+    @reify
+    def user(self):
         """Return query for the user."""
         user = (
             self._db.query(User)

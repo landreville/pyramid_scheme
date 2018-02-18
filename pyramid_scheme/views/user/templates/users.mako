@@ -20,13 +20,6 @@
                 <td>${user.email}</td>
                 <td>
                     <a class="button-nav" href="${view_link}">View</a>
-                    <a class="button-nav" href="${request.route_path(
-                            'user',
-                            action='view',
-                            username=user.username
-                        )}">
-                        View
-                    </a>
                 </td>
             </tr>
         % endfor

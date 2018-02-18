@@ -11,6 +11,32 @@ from .forms import AddUserSchema
 log = logging.getLogger(__name__)
 
 
+def save(request, on_success_path, user=None, password=None):
+
+    try:
+        form_result = AddUserSchema().to_python(
+            request.params,
+            request
+        )
+    except Invalid as e:
+        log.debug('Validation error: {}'.format(e))
+        return {'form_errors': e.unpack_errors()}
+
+    if not user:
+        user = User()
+
+    user.username = form_result['username']
+    user.first_name = form_result['first_name']
+    user.last_name = form_result['last_name']
+    user.email = form_result['email']
+    if password:
+        user.password = password
+
+    request.db.add(user)
+    log.info('Saved new user {}'.format(user.username))
+    return HTTPFound(on_success_path)
+
+
 @view_defaults(route_name='users')
 class UsersView(BaseView):
     """View-class for managing the set of users."""
@@ -52,26 +78,11 @@ class UsersAddView(BaseView):
     )
     def add_save(self):
 
-        try:
-            form_results = AddUserSchema().to_python(
-                self._request.params,
-                self._request
-            )
-        except Invalid as e:
-            log.debug('Validation error: {}'.format(e))
-            return {'form_errors': e.unpack_errors()}
-
-        new_user = User(
-            username=form_results['username'],
-            first_name=form_results['first_name'],
-            last_name=form_results['last_name'],
-            email=form_results['email'],
+        return save(
+            self._request,
+            self._request.route_path('users'),
             password=self._random_password()
         )
-
-        self._request.db.add(new_user)
-        log.info('Added new user {}'.format(new_user.username))
-        return HTTPFound(self._request.route_path('users'))
 
     def _random_password(self):
         """Return a 12-character string with random letters and digits."""
@@ -89,8 +100,34 @@ class UserView(BaseView):
         renderer='templates/user-view.mako',
         match_param="action=view"
     )
+    @view_config(
+        renderer='templates/user-edit.mako',
+        match_param='action=edit',
+        request_method='GET'
+    )
     def view(self):
-        user = self._context.get_user()
+        user = self._context.user
         return {
-            'user': user
+            'user': user,
+            'edit_link': self._request.route_path(
+                'user',
+                action='edit',
+                username=user.username
+            )
         }
+
+    @view_config(
+        renderer='templates/user-edit.mako',
+        request_method="POST",
+    )
+    def edit_save(self):
+        user = self._context.user
+        return save(
+            self._request,
+            self._request.route_path(
+                'user',
+                action='view',
+                username=user.username
+            ),
+            user=user
+        )

@@ -40,8 +40,7 @@
 
         </label>
         <div class="form__value">
-            ## TODO: Add link to edit view
-            <a class="button-nav" href="">
+            <a class="button-nav" href="${edit_link}">
                 Edit
             </a>
         </div>
